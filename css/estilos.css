@@ -253,47 +253,171 @@ h2.text-center::after {
 }
 
 
-/* ====== Botones personalizados ====== */
-.btn {
-  padding: 0.8rem 2rem;
-  border-radius: 30px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  transition: all 0.3s ease;
+
+
+/* ====== Footer Styles ====== */
+.footer {
+    background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+    color: #fff;
+    padding: 3rem 0 1rem;
+    margin-top: 4rem;
 }
 
-.btn-success {
-  background: linear-gradient(135deg, #198754 0%, #20c997 100%);
-  border: none;
-  box-shadow: 0 4px 15px rgba(25,135,84,0.2);
+.footer-title {
+    color: #fff;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
 }
 
-.btn-success:hover {
-  background: linear-gradient(135deg, #20c997 0%, #198754 100%);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(25,135,84,0.3);
+.footer-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.4);
 }
 
-/* ====== Footer ====== */
+.footer-description {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.footer-links a:hover {
+    color: #fff;
+    padding-left: 5px;
+}
+
+.footer-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-contact li {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.footer-bottom {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-social {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.social-link {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    color: #fff;
+    transform: translateY(-3px);
+}
+
+@media (max-width: 768px) {
+    .footer {
+        padding: 2rem 0 1rem;
+    }
+    
+    .footer-bottom {
+        text-align: center;
+    }
+    
+    .footer-social {
+        justify-content: center;
+        margin-top: 1rem;
+    }
+
+    .social-media .btn{
+      
+      padding: 0.5rem;
+      font-size: 12px;
+      margin: 0;
+    }
+
+    .gap-3{
+      gap: 0rem !important;
+      
+    }
+
+    
+}
+
+@media (min-width:768px){
+  .social-media .btn{
+      
+      padding: 0.5rem;
+      font-size: 14px;
+      margin: 0;
+    }
+    
+}
+
+@media (min-width:767px){
+    .text-decoration-none{
+      text-wrap: wrap;
+      overflow-wrap: break-word;
+      hyphens: auto;
+    } 
+}
 footer {
-  background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%) !important;
-  color: #fff;
-  padding: 2rem 0;
-  text-align: center;
-  margin-top: 50px;
-  position: relative;
-  overflow: hidden;
+    font-size: 0.9rem;
 }
 
-footer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #fff 0%, rgba(255,255,255,0) 100%);
+footer .social-links a {
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+footer .social-links a:hover {
+    color: var(--bs-primary) !important;
+}
+
+footer ul li {
+    margin-bottom: 0.5rem;
+}
+
+footer ul li a {
+    transition: color 0.3s ease;
+}
+
+footer ul li a:hover {
+    color: var(--bs-primary) !important;
 }
 
 /* ====== Animaciones ====== */
@@ -420,6 +544,7 @@ footer::before {
     border-radius: 15px;
     padding: 2rem;
     text-align: center;
+    align-items: center;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
@@ -477,6 +602,25 @@ footer::before {
     margin: 0;
 }
 
+@media (max-width:525px){
+   .specialty-card {
+    padding: 1rem;
+  }
+  .specialty-icon img{
+    width: 45px;
+    height: 45px; 
+  }
+  .specialty-name{
+    font-weight: 500;
+    font-size: 10px;
+    color: #495057;
+    margin: 0;
+    text-align: center;
+  }
+
+ 
+}
+
 .form-section {
     background: rgba(255,255,255,0.7);
     border-radius: 15px;
@@ -504,6 +648,12 @@ footer::before {
     transform: translateY(-2px);
 }
 
+
+/*-------------------------- BOTONES --------------*/
+
+/* ====== Botones personalizados ====== */
+
+
 .btn {
     border-radius: 10px;
     padding: 0.75rem 2rem;
@@ -512,6 +662,7 @@ footer::before {
     border: none;
     position: relative;
     overflow: hidden;
+    margin: 0.5rem 1rem;
 }
 
 .btn-primary {
@@ -520,18 +671,26 @@ footer::before {
 }
 
 .btn-success {
-    background: var(--success-gradient);
-    color: #415c76;
+    background:linear-gradient(135deg, #198754 0%, #20c997 100%);;
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 15px rgba(25,135,84,0.2);
+}
+.btn-success:hover {
+  background: linear-gradient(135deg, #20c997 0%, #198754 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(25,135,84,0.3);
 }
 
 .btn-warning {
     background: linear-gradient(135deg, #ff9a56 0%, #ff6b6b 100%);
-    color: #415c76;
+    color: #fff;
 }
+
 
 .btn-danger {
     background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-    color: #415c76;
+    color: #fff;
 }
 
 .btn:hover {
@@ -553,6 +712,47 @@ footer::before {
 .btn:hover::before {
     left: 100%;
 }
+
+@media (max-width:525px){
+  .tab-btn{
+    padding: 0.5rem 1rem;
+    font-size: 12px;
+  }
+
+  #formCita .btn{
+    padding: 0.5rem;
+    font-size: 12px;
+  }
+
+  #consultar button{
+    padding: 0.5rem;
+    font-size: 10px;
+  }
+
+  #formCita .form-control, #formCita .form-select{
+    padding: 0.5rem;
+    font-size: 12px;
+  }
+
+  #formConsultar .form-control, #formConsulta .form-select{
+    padding: 0.5rem;
+    font-size: 12px;
+  }
+
+  .cita-card{
+    font-size: 12px;
+  }
+
+  .cita-card h5{
+    font-size: 14px;
+  }
+
+
+    
+}
+
+
+/* ........................................ */
 
 .cita-card {
     background: rgba(255,255,255,0.95);
@@ -657,7 +857,8 @@ footer::before {
     }
     
     .specialty-card {
-        padding: 1.5rem;
+        padding: 1rem;
+        align-content: center;
     }
     
     .specialty-icon {
@@ -670,3 +871,59 @@ footer::before {
     }
 }
 
+
+
+
+/* ----------------------------------------------- */
+/* -------------------CONACTO--------------------- */
+/* ----------------------------------------------- */
+
+.contatc-info{
+  background: white;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+@media (max-width:525px){
+  .contact-info{
+    padding: 1rem;
+    font-size: 12px;
+  }
+
+  .contact-info h5,h3{
+    font-size: 14px;
+  }
+
+  .gap-3{
+    gap: 0.5rem !important;
+    
+  }
+
+  .social-media .btn{
+    padding: 0.5rem;
+    font-size: 12px;
+  }
+    
+  .contact-form{
+    padding: 1rem;
+    font-size: 12px;
+  }
+
+  #formContacto .form-control{
+    width: 260px;
+    height: 40px;
+  }
+
+  #formContacto .btn{
+    padding: 0.5rem;
+    font-size: 12px;
+    margin: 0;
+  }
+
+  #mapDiv iframe{
+    width: 260px;
+    height: 100px;
+  }
+}

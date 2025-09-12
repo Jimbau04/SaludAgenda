@@ -1,4 +1,4 @@
-        // Variables globales
+// Variables globales
         let selectedSpecialty = '';
         let editingCitaId = null;
 
@@ -79,16 +79,30 @@
         // Consultar citas
         document.getElementById("formConsultar").addEventListener("submit", function(e) {
             e.preventDefault();
-            const folio = document.getElementById("consultaFolio").value.trim();
             const correo = document.getElementById("consultaCorreo").value.trim();
-
+            const especialidad = document.getElementById("filtroEspecialidad").value;
+            const fechaInicio = document.getElementById("fechaInicio").value;
+            const fechaFin = document.getElementById("fechaFin").value;
+        
             let citas = JSON.parse(localStorage.getItem("citas")) || [];
-            let filtradas = citas.filter(c => (folio ? c.id == folio : true) && c.correo === correo);
-
+            let filtradas = citas.filter(c => {
+                const citaFecha = new Date(c.fecha).getTime();
+                const cumpleCorreo = c.correo === correo;
+                const cumpleEspecialidad = !especialidad || c.especialidad === especialidad;
+                const cumpleFechaInicio = !fechaInicio || citaFecha >= new Date(fechaInicio).getTime();
+                const cumpleFechaFin = !fechaFin || citaFecha <= new Date(fechaFin + 'T23:59:59').getTime();
+                
+                return cumpleCorreo && cumpleEspecialidad && cumpleFechaInicio && cumpleFechaFin;
+            });
+        
+            mostrarCitas(filtradas);
+        });
+        
+        function mostrarCitas(citas) {
             const resultado = document.getElementById("resultadoCitas");
             resultado.innerHTML = "";
-
-            if (filtradas.length === 0) {
+        
+            if (citas.length === 0) {
                 resultado.innerHTML = `
                     <div class="text-center py-4">
                         <i class="bi bi-search" style="font-size: 3rem; color: #6c757d;"></i>
@@ -97,13 +111,13 @@
                 `;
                 return;
             }
-
-            const citasHtml = filtradas.map(cita => `
+        
+            const citasHtml = citas.map(cita => `
                 <div class="cita-card">
                     <div class="d-flex justify-content-between align-items-start mb-3">
                         <div>
                             <h5><i class="bi bi-ticket-detailed"></i> Folio: ${cita.id}</h5>
-                            <span class="status-badge ${cita.estatus === 'Activa' ? 'status-activa' : 'status-cancelada'}">
+                            <span class="badge ${getStatusBadgeClass(cita.estatus)}">
                                 ${cita.estatus}
                             </span>
                         </div>
@@ -126,9 +140,12 @@
                     <p><strong><i class="bi bi-chat-square-text"></i> Motivo:</strong> ${cita.motivo}</p>
                     
                     <div class="mt-3">
-                        ${cita.estatus === 'Activa' ? `
+                        ${cita.estatus !== 'Cancelada' ? `
                             <button class="btn btn-warning btn-sm me-2" onclick="modificarCita(${cita.id})">
                                 <i class="bi bi-pencil"></i> Modificar
+                            </button>
+                            <button class="btn btn-info btn-sm me-2" onclick="cambiarEstatus(${cita.id}, 'Confirmada')">
+                                <i class="bi bi-check-circle"></i> Confirmar
                             </button>
                             <button class="btn btn-danger btn-sm" onclick="cancelarCita(${cita.id})">
                                 <i class="bi bi-x-circle"></i> Cancelar
@@ -137,9 +154,61 @@
                     </div>
                 </div>
             `).join('');
-
+        
             resultado.innerHTML = citasHtml;
-        });
+        }
+        
+        function getStatusBadgeClass(estatus) {
+            const classes = {
+                'Activa': 'bg-primary',
+                'Confirmada': 'bg-success',
+                'Cancelada': 'bg-danger'
+            };
+            return classes[estatus] || 'bg-secondary';
+        }
+        
+        function cambiarEstatus(id, nuevoEstatus) {
+            let citas = JSON.parse(localStorage.getItem("citas")) || [];
+            citas = citas.map(c => c.id === id ? {...c, estatus: nuevoEstatus} : c);
+            localStorage.setItem("citas", JSON.stringify(citas));
+            document.getElementById("formConsultar").dispatchEvent(new Event("submit"));
+        }
+        
+        function exportarCitas() {
+            const correo = document.getElementById("consultaCorreo").value.trim();
+            if (!correo) {
+                alert("Por favor, ingrese un correo electrónico para exportar las citas.");
+                return;
+            }
+        
+            let citas = JSON.parse(localStorage.getItem("citas")) || [];
+            citas = citas.filter(c => c.correo === correo);
+        
+            if (citas.length === 0) {
+                alert("No hay citas para exportar.");
+                return;
+            }
+        
+            const contenido = citas.map(cita => `
+        FOLIO: ${cita.id}
+        Paciente: ${cita.nombre}
+        Especialidad: ${cita.especialidad}
+        Fecha: ${formatDate(cita.fecha)}
+        Estado: ${cita.estatus}
+        Motivo: ${cita.motivo}
+        ----------------------------------------
+        `).join('\n');
+        
+            const blob = new Blob([contenido], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'citas.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
 
         // Funciones auxiliares
         function getSpecialtyIcon(specialty) {
