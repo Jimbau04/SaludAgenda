@@ -49,8 +49,8 @@
 
     <!-- Contenido principal -->
     <div class="container mt-5">
-        <div class="page-title">
-                <h1><i class="bi bi-calendar-heart-fill"></i> Gestión de Citas Médicas</h1>
+        <div class="page-title ">
+                <h2 class="text-center mb-4"><i class="bi bi-calendar-heart-fill"></i> Gestión de Citas Médicas</h2>
                 <p>Programa y consulta tus citas médicas de forma sencilla y rápida</p>
             </div>
         <div class="cita-container">
@@ -131,12 +131,48 @@
                 <div class="form-section">
                     <h4><i class="bi bi-plus-circle"></i> Generar Nueva Cita</h4>
 
-                    <!-- Selector de especialidad con iconos -->
-                    <div class="mb-4">
-                        <label class="form-label">
-                            <i class="bi bi-hospital"></i> Selecciona la Especialidad
+                    <!-- Verificación de correo -->
+                    <div id="email-verification" class="mb-4">
+                        <label for="correoVerificacion" class="form-label">
+                            <i class="bi bi-envelope"></i> Ingresa tu correo electrónico
                         </label>
-                        <div class="specialty-grid">
+                        <div class="input-group">
+                            <input type="email" class="form-control" id="correoVerificacion" 
+                                   placeholder="correo@ejemplo.com" required>
+                            <button type="button" class="btn btn-primary" onclick="verificarUsuario()">
+                                <i class="bi bi-search"></i> Verificar
+                            </button>
+                        </div>
+                        <small class="form-text text-muted">
+                            Necesitas estar registrado para agendar una cita
+                        </small>
+                    </div>
+
+                    <!-- Información del usuario (se muestra cuando está registrado) -->
+                    <div id="user-info" style="display: none;">
+                        <div class="user-info-card">
+                            <h5><i class="bi bi-person-check"></i> Usuario Verificado</h5>
+                            <div id="user-details"></div>
+                        </div>
+                    </div>
+
+                    <!-- Mensaje para usuarios no registrados -->
+                    <div id="registration-alert" class="alert alert-info" style="display: none;">
+                        <h5><i class="bi bi-info-circle"></i> Usuario no encontrado</h5>
+                        <p>No encontramos una cuenta con ese correo electrónico. Para agendar una cita, primero necesitas registrarte.</p>
+                        <a href="registro.html" class="btn-register">
+                            <i class="bi bi-person-plus"></i> Registrarse Ahora
+                        </a>
+                    </div>
+
+                    <!-- Formulario de cita (se muestra solo para usuarios registrados) -->
+                    <div id="cita-form-container" style="display: none;">
+                        <!-- Selector de especialidad con iconos -->
+                        <div class="mb-4">
+                            <label class="form-label">
+                                <i class="bi bi-hospital"></i> Selecciona la Especialidad
+                            </label>
+                            <div class="specialty-grid">
                             <div class="specialty-card" data-specialty="Laboratorio">
                                 <div class="specialty-icon">
                                     <img src="assets/icons/Icon_Laboratorio.svg">
@@ -198,55 +234,55 @@
                                 <h5 class="specialty-name">Mastografía</h5>
                             </div>
                         </div>
-                        <input type="hidden" id="especialidadSelect" required>
-                        <div id="especialidadError" class="text-danger mt-2" style="display: none;">
-                            Por favor, selecciona una especialidad.
+                            <input type="hidden" id="especialidadSelect" required>
+                            <div id="especialidadError" class="text-danger mt-2" style="display: none;">
+                                Por favor, selecciona una especialidad.
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Formulario de cita -->
-                    <form id="formCita">
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="nombre" class="form-label">
-                                    <i class="bi bi-person"></i> Nombre completo
-                                </label>
-                                <input type="text" class="form-control" id="nombre" placeholder="Ingrese su nombre completo" required>
+                        <!-- Formulario de cita -->
+                        <form id="formCita">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="fecha" class="form-label">Fecha de la cita *</label>
+                                    <input type="date" class="form-control" id="fecha" name="fecha" required>
+                                    <div class="invalid-feedback">
+                                        Seleccione una fecha válida
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="hora" class="form-label">Hora preferida *</label>
+                                    <select class="form-select" id="hora" name="hora" required>
+                                        <option value="">Seleccione una hora</option>
+                                        <option value="08:00">08:00 AM</option>
+                                        <option value="09:00">09:00 AM</option>
+                                        <option value="10:00">10:00 AM</option>
+                                        <option value="11:00">11:00 AM</option>
+                                        <option value="12:00">12:00 PM</option>
+                                        <option value="13:00">01:00 PM</option>
+                                        <option value="14:00">02:00 PM</option>
+                                        <option value="15:00">03:00 PM</option>
+                                        <option value="16:00">04:00 PM</option>
+                                        <option value="17:00">05:00 PM</option>
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Seleccione una hora
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="motivo" class="form-label">
+                                        <i class="bi bi-chat-square-text"></i> Motivo de la consulta
+                                    </label>
+                                    <textarea id="motivo" class="form-control" rows="3" 
+                                             placeholder="Describe brevemente el motivo de tu consulta..." required></textarea>
+                                </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="correo" class="form-label">
-                                    <i class="bi bi-envelope"></i> Correo electrónico
-                                </label>
-                                <input type="email" class="form-control" id="correo" placeholder="correo@ejemplo.com" required>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="telefono" class="form-label">
-                                    <i class="bi bi-telephone"></i> Teléfono
-                                </label>
-                                <input type="tel" class="form-control" id="telefono" pattern="[0-9]{10}" maxlength="10" placeholder="1234567890" required>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="fecha" class="form-label">
-                                    <i class="bi bi-calendar-date"></i> Fecha y hora
-                                </label>
-                                <input type="datetime-local" class="form-control" id="fecha" required>
-                            </div>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <label for="motivo" class="form-label">
-                                <i class="bi bi-chat-square-text"></i> Motivo de la consulta
-                            </label>
-                            <textarea id="motivo" class="form-control" rows="3" placeholder="Describe brevemente el motivo de tu consulta..." ></textarea>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-success">
-                            <i class="bi bi-check-circle"></i> Guardar Cita
-                        </button>
-                    </form>
+                            
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-check-circle"></i> Guardar Cita
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -255,6 +291,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/citas.js"></script>
+    <script src="js/registro.js"></script>
+    <scrript src="js/autocompletar.js"></script>
 
     <!-- Footer -->
     <footer class="footer mt-5">

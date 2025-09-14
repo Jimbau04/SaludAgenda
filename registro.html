@@ -50,96 +50,113 @@
   </nav>
 
   <!-- Formulario de Registro -->
-  <section class="container py-5">
-    <h2 class="text-center mb-4">Agendar una Cita</h2>
+  <div class="container mt-5">
+  <section class="container ">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <h2 class="text-center mb-4">Registro de Usuario</h2>
+        <p class="text-center text-muted mb-4">Complete sus datos personales para registrarse en SaludAgenda</p>
 
-    <form id="formRegistro" class="card p-4 shadow needs-validation" novalidate>
-        <!-- Nombre -->
-        <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre completo *</label>
-            <input type="text" class="form-control" id="nombre" required
-                   pattern="[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+"
-                   placeholder="Ingrese su nombre completo">
-            <div class="invalid-feedback">
-                Por favor ingrese un nombre válido
-            </div>
+        <!-- Mensaje de éxito -->
+        <div id="mensajeExito" class="alert alert-success d-none" role="alert">
+          <i class="bi bi-check-circle-fill me-2"></i>
+          ¡Registro exitoso! Sus datos han sido guardados correctamente.
         </div>
 
-        <!-- Correo -->
-        <div class="mb-3">
-            <label for="correo" class="form-label">Correo electrónico *</label>
-            <input type="email" class="form-control" id="correo" required
-                   placeholder="ejemplo@correo.com">
-            <div class="invalid-feedback">
-                Por favor ingrese un correo electrónico válido
-            </div>
+        <!-- Mensaje de error -->
+        <div id="mensajeError" class="alert alert-danger d-none" role="alert">
+          <i class="bi bi-exclamation-triangle-fill me-2"></i>
+          <span id="textoError">Ha ocurrido un error. Por favor intente nuevamente.</span>
         </div>
 
-        <!-- Teléfono -->
-        <div class="mb-3">
-            <label for="telefono" class="form-label">Teléfono *</label>
-            <input type="tel" class="form-control" id="telefono" required
-                   pattern="[0-9]{8,10}"
-                   placeholder="Ingrese su número telefónico">
-            <div class="invalid-feedback">
-                Por favor ingrese un teléfono válido (8-10 dígitos)
-            </div>
-        </div>
-
-        <!-- Especialidad -->
-        <div class="mb-3">
-            <label for="especialidad" class="form-label">Especialidad *</label>
-            <select id="especialidad" class="form-select" required>
-                <option value="">Seleccione una especialidad</option>
-                <option value="Pediatría">Pediatría</option>
-                <option value="Ginecología">Ginecología</option>
-                <option value="Odontología">Odontología</option>
-                <option value="Medicina General">Medicina General</option>
-                <option value="Cardiología">Cardiología</option>
-                <option value="Dermatología">Dermatología</option>
-            </select>
-            <div class="invalid-feedback">
-                Por favor seleccione una especialidad
-            </div>
-        </div>
-
-        <!-- Fecha y Hora -->
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label for="fecha" class="form-label">Fecha de la cita *</label>
-                <input type="date" class="form-control" id="fecha" required>
-                <div class="invalid-feedback">
-                    Seleccione una fecha válida
+        <form id="formRegistro" class="cita-container" novalidate>
+            <!-- Correo Electrónico -->
+            <div class="mb-3">
+                <label for="correo" class="form-label">Correo electrónico *</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                    <input type="email" class="form-control" id="correo" name="correo" required
+                           placeholder="ejemplo@correo.com">
+                    <div class="invalid-feedback">
+                        Por favor ingrese un correo electrónico válido
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <label for="hora" class="form-label">Hora de la cita *</label>
-                <input type="time" class="form-control" id="hora" required
-                       min="08:00" max="18:00">
-                <div class="invalid-feedback">
-                    Seleccione una hora entre 8:00 y 18:00
+
+            <!-- Nombre -->
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre(s) *</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                    <input type="text" class="form-control" id="nombre" name="nombre" required
+                           pattern="[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+"
+                           placeholder="Ingrese su nombre">
+                    <div class="invalid-feedback">
+                        Por favor ingrese un nombre válido (solo letras y espacios)
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Motivo -->
-        <div class="mb-4">
-            <label for="motivo" class="form-label">Motivo de la consulta *</label>
-            <textarea id="motivo" class="form-control" rows="3" required
-                      placeholder="Describa brevemente el motivo de su consulta"></textarea>
-            <div class="invalid-feedback">
-                Por favor ingrese el motivo de la consulta
+            <!-- Apellidos -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="apellidoPaterno" class="form-label">Apellido Paterno *</label>
+                    <input type="text" class="form-control" id="apellidoPaterno" name="apellidoPaterno" required
+                           pattern="[A-Za-zÁáÉéÍíÓóÚúÑñ\s]+"
+                           placeholder="Apellido paterno">
+                    <div class="invalid-feedback">
+                        Ingrese un apellido válido
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="apellidoMaterno" class="form-label">Apellido Materno</label>
+                    <input type="text" class="form-control" id="apellidoMaterno" name="apellidoMaterno"
+                           pattern="[A-Za-zÁáÉéÍíÓóÚúÑñ\s]*"
+                           placeholder="Apellido materno (opcional)">
+                    <div class="invalid-feedback">
+                        Ingrese un apellido válido
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <!-- Botón -->
-        <div class="text-center">
-            <button type="submit" class="btn btn-success btn-lg">
-                <i class="fas fa-calendar-check me-2"></i>Guardar cita
-            </button>
+            <!-- Teléfono -->
+            <div class="mb-4">
+                <label for="telefono" class="form-label">Teléfono *</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                    <input type="tel" class="form-control" id="telefono" name="telefono" required
+                           pattern="[0-9]{10}"
+                           placeholder="10 dígitos (ej: 5555555555)"
+                           maxlength="10">
+                    <div class="invalid-feedback">
+                        Por favor ingrese un teléfono válido de 10 dígitos
+                    </div>
+                </div>
+                <div class="form-text">Ingrese su número a 10 dígitos sin espacios ni guiones</div>
+            </div>
+
+            <!-- Botones -->
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <button type="button" id="btnLimpiar" class="btn btn-outline-secondary me-md-2">
+                    <i class="bi bi-arrow-clockwise me-2"></i>Limpiar
+                </button>
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-person-plus me-2"></i>Registrarse
+                </button>
+            </div>
+        </form>
+
+        <!-- Información adicional -->
+        <div class="mt-4 text-center">
+            <small class="text-muted">
+                * Campos obligatorios<br>
+                Sus datos serán almacenados de forma segura y solo se utilizarán para la gestión de citas médicas.
+            </small>
         </div>
-    </form>
-</section>
+      </div>
+    </div>
+  </section>
+  </div>
 
   <!-- Footer -->
   <footer class="footer mt-5">

@@ -840,7 +840,7 @@ footer ul li a:hover {
 }
 
 .page-title h1 {
-    color: #415c76;
+    color: #2c3e50;
     font-weight: 800;
     margin-bottom: 0.5rem;
 }
@@ -927,3 +927,47 @@ footer ul li a:hover {
     height: 100px;
   }
 }
+
+
+/* ----------POP UP------------------ */
+/* Fondo del popup */
+.popup {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -30%);
+    background: #fff;
+    padding: 20px;
+    border: 2px solid rgb(84, 121, 156);
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    text-align: center;
+    max-width: 300px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Contenido interno */
+.popup-content p {
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Botón */
+.popup-btn {
+    margin-top: 10px;
+    padding: 6px 16px;
+    border: none;
+    background: linear-gradient(90deg, #415c76, #3498db);
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.popup-btn:hover {
+    background: linear-gradient(90deg, #3498db, #415c76);
+}
+
+
