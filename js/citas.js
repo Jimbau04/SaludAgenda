@@ -508,42 +508,4 @@
             }
         }
 
-        // Modificar cita
-        function modificarCita(id) {
-            let citas = JSON.parse(localStorage.getItem("citas")) || [];
-            const cita = citas.find(c => c.id === id);
-            if (!cita) return;
-
-            // Cambiar a tab de generar
-            openTab({currentTarget: document.querySelectorAll(".tab-btn")[1]}, "generar");
-            
-            // Llenar el formulario
-            document.getElementById("nombre").value = cita.nombre;
-            document.getElementById("correo").value = cita.correo;
-            document.getElementById("telefono").value = cita.telefono;
-            document.getElementById("fecha").value = cita.fecha;
-            document.getElementById("motivo").value = cita.motivo;
-
-            // Seleccionar especialidad
-            selectedSpecialty = cita.especialidad;
-            document.getElementById('especialidadSelect').value = selectedSpecialty;
-            document.querySelectorAll('.specialty-card').forEach(card => {
-                card.classList.remove('selected');
-                if (card.dataset.specialty === cita.especialidad) {
-                    card.classList.add('selected');
-                }
-            });
-
-            // Eliminar la cita antigua
-            citas = citas.filter(c => c.id !== id);
-            localStorage.setItem("citas", JSON.stringify(citas));
-            
-            alert("📝 Cita cargada para modificación. Realice los cambios necesarios y guarde.");
-        }
-
-        // Establecer fecha mínima como ahora
-        document.addEventListener('DOMContentLoaded', function() {
-            const now = new Date();
-            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-            document.getElementById('fecha').min = now.toISOString().slice(0, 16);
-        });
+        
