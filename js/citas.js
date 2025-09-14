@@ -74,7 +74,7 @@
             const userDetails = document.getElementById('user-details');
             
             userDetails.innerHTML = `
-                <p><i class="bi bi-person"></i> <strong>Nombre:</strong> ${usuario.nombre}</p>
+                <p><i class="bi bi-person"></i> <strong>Nombre:</strong> ${usuario.nombre} ${usuario.apellidoP} ${usuario.apellidoM}</p>
                 <p><i class="bi bi-envelope"></i> <strong>Correo:</strong> ${usuario.correo}</p>
                 <p><i class="bi bi-telephone"></i> <strong>Teléfono:</strong> ${usuario.telefono}</p>
             `;
@@ -139,7 +139,7 @@
             
             const cita = {
                 id: Date.now(),
-                nombre: currentUser.nombre,
+                nombre: currentUser.nombre + (currentUser.apellidoP ? " " + currentUser.apellidoP : ""),
                 correo: currentUser.correo,
                 telefono: currentUser.telefono,
                 especialidad: document.getElementById("especialidadSelect").value,

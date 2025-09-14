@@ -231,6 +231,8 @@ class RegistroUsuarios {
         const usuario = {
             id: Date.now(),
             nombre: document.getElementById("nombre").value.trim(),
+            apellidoP: document.getElementById("apellidoPaterno").value.trim(),
+            apellidoM: document.getElementById("apellidoMaterno").value.trim(),
             correo: document.getElementById("correo").value.trim(),
             telefono: document.getElementById("telefono").value.trim(),
             fechaRegistro: new Date().toISOString()
@@ -250,7 +252,8 @@ class RegistroUsuarios {
             
             const cita = {
                 id: Date.now() + 1, // Asegurar ID único
-                nombre: usuario.nombre,
+                nombre: usuario.nombre + (usuario.apellidoP ? " " + usuario.apellidoM : ""),
+
                 correo: usuario.correo,
                 telefono: usuario.telefono,
                 especialidad: especialidad.value,
