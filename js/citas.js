@@ -142,7 +142,7 @@
                 nombre: currentUser.nombre,
                 correo: currentUser.correo,
                 telefono: currentUser.telefono,
-                especialidad: selectedSpecialty,
+                especialidad: document.getElementById("especialidadSelect").value,
                 fecha: document.getElementById("fecha").value,
                 hora: document.getElementById("hora").value,
                 motivo: document.getElementById("motivo").value.trim(),
@@ -343,29 +343,33 @@
         // Consultar citas
         document.getElementById("formConsultar").addEventListener("submit", function(e) {
             e.preventDefault();
-            const correo = document.getElementById("consultaCorreo").value.trim();
+
+            const correo = document.getElementById("consultaCorreo").value.trim().toLowerCase();
             const especialidad = document.getElementById("filtroEspecialidad").value;
             const fechaInicio = document.getElementById("fechaInicio").value;
             const fechaFin = document.getElementById("fechaFin").value;
-        
+
             let citas = JSON.parse(localStorage.getItem("citas")) || [];
-            let filtradas = citas.filter(c => {
+
+            const filtradas = citas.filter(c => {
                 const citaFecha = new Date(c.fecha).getTime();
-                const cumpleCorreo = c.correo === correo;
+
+                const cumpleCorreo = !correo || c.correo.toLowerCase() === correo;
                 const cumpleEspecialidad = !especialidad || c.especialidad === especialidad;
                 const cumpleFechaInicio = !fechaInicio || citaFecha >= new Date(fechaInicio).getTime();
-                const cumpleFechaFin = !fechaFin || citaFecha <= new Date(fechaFin + 'T23:59:59').getTime();
-                
+                const cumpleFechaFin = !fechaFin || citaFecha <= new Date(fechaFin).getTime();
+
                 return cumpleCorreo && cumpleEspecialidad && cumpleFechaInicio && cumpleFechaFin;
             });
-        
+
             mostrarCitas(filtradas);
         });
-        
+
+
         function mostrarCitas(citas) {
             const resultado = document.getElementById("resultadoCitas");
             resultado.innerHTML = "";
-        
+
             if (citas.length === 0) {
                 resultado.innerHTML = `
                     <div class="text-center py-4">
@@ -375,51 +379,58 @@
                 `;
                 return;
             }
-        
-            const citasHtml = citas.map(cita => `
-                <div class="cita-card">
-                    <div class="d-flex justify-content-between align-items-start mb-3">
-                        <div>
-                            <h5><i class="bi bi-ticket-detailed"></i> Folio: ${cita.id}</h5>
-                            <span class="badge ${getStatusBadgeClass(cita.estatus)}">
-                                ${cita.estatus}
-                            </span>
+
+            const hoy = new Date();
+
+            const citasHtml = citas.map(cita => {
+                // Actualizar estatus automáticamente si la fecha ya pasó
+                const fechaCita = new Date(cita.fecha);
+                let estatusFinal = cita.estatus;
+                
+
+                return `
+                    <div class="cita-card">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h5><i class="bi bi-ticket-detailed"></i> Folio: ${cita.id}</h5>
+                                <span class="badge ${getStatusBadgeClass(estatusFinal)}">${estatusFinal}</span>
+                            </div>
+                            <div class="specialty-icon" style="font-size: 2rem;">
+                                ${getSpecialtyIcon(cita.especialidad)}
+                            </div>
                         </div>
-                        <div class="specialty-icon" style="font-size: 2rem;">
-                            ${getSpecialtyIcon(cita.especialidad)}
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong><i class="bi bi-hospital"></i> Especialidad:</strong> ${cita.especialidad}</p>
+                                <p><strong><i class="bi bi-calendar-date"></i> Fecha:</strong> ${cita.fecha.split('T')[0]}</p>
+                                <p><strong><i class="bi bi-clock"></i> Hora:</strong> ${cita.hora}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong><i class="bi bi-person"></i> Nombre:</strong> ${cita.nombre}</p>
+                                <p><strong><i class="bi bi-telephone"></i> Teléfono:</strong> ${cita.telefono}</p>
+                            </div>
+                        </div>
+
+                        <p><strong><i class="bi bi-chat-square-text"></i> Motivo:</strong> ${cita.motivo}</p>
+
+                        <div class="mt-3">
+                            ${estatusFinal !== 'Cancelada' && estatusFinal !== 'Confirmada' ? `
+                                <button class="btn btn-warning btn-sm me-2" onclick="modificarCita(${cita.id})">
+                                    <i class="bi bi-pencil"></i> Modificar
+                                </button>
+                                <button class="btn btn-info btn-sm me-2" onclick="cambiarEstatus(${cita.id}, 'Confirmada')">
+                                    <i class="bi bi-check-circle"></i> Confirmar
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="cancelarCita(${cita.id})">
+                                    <i class="bi bi-x-circle"></i> Cancelar
+                                </button>
+                            ` : ''}
                         </div>
                     </div>
-                    
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p><strong><i class="bi bi-hospital"></i> Especialidad:</strong> ${cita.especialidad}</p>
-                            <p><strong><i class="bi bi-calendar-date"></i> Fecha:</strong> ${cita.fecha.split('T')[0]}</p>
-                            <p></p><strong><i class="bi bi-clock"></i> Hora:</strong> ${cita.hora}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong><i class="bi bi-person"></i> Nombre:</strong> ${cita.nombre}</p>
-                            <p><strong><i class="bi bi-telephone"></i> Teléfono:</strong> ${cita.telefono}</p>
-                        </div>
-                    </div>
-                    
-                    <p><strong><i class="bi bi-chat-square-text"></i> Motivo:</strong> ${cita.motivo}</p>
-                    
-                    <div class="mt-3">
-                        ${cita.estatus !== 'Cancelada' & cita.estatus!== 'Confirmada' ? `
-                            <button class="btn btn-warning btn-sm me-2" onclick="modificarCita(${cita.id})">
-                                <i class="bi bi-pencil"></i> Modificar
-                            </button>
-                            <button class="btn btn-info btn-sm me-2" onclick="cambiarEstatus(${cita.id}, 'Confirmada')">
-                                <i class="bi bi-check-circle"></i> Confirmar
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="cancelarCita(${cita.id})">
-                                <i class="bi bi-x-circle"></i> Cancelar
-                            </button>
-                        ` : ''}
-                    </div>
-                </div>
-            `).join('');
-        
+                `;
+            }).join('');
+
             resultado.innerHTML = citasHtml;
         }
         
@@ -454,15 +465,25 @@
                 return;
             }
         
-            const contenido = citas.map(cita => `
+            const contenido = citas.map(cita => {
+            const fecha = new Date(cita.fecha);
+            const fechaFormateada = fecha.toLocaleDateString('es-MX', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+
+            return `
         FOLIO: ${cita.id}
         Paciente: ${cita.nombre}
         Especialidad: ${cita.especialidad}
-        Fecha: ${formatDate(cita.fecha)}
+        Fecha: ${fechaFormateada}
+        Hora: ${cita.hora}
         Estado: ${cita.estatus}
         Motivo: ${cita.motivo}
         ----------------------------------------
-        `).join('\n');
+            `;
+        }).join('\n');
         
             const blob = new Blob([contenido], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
