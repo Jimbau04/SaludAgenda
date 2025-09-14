@@ -966,6 +966,10 @@ footer ul li a:hover {
     transition: background 0.2s;
 }
 
+.popup-btn btn-confirmar {
+    background: linear-gradient(90deg, #415c76, #3498db);
+}
+
 .popup-btn:hover {
     background: linear-gradient(90deg, #3498db, #415c76);
 }

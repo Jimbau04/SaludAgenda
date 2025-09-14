@@ -26,7 +26,7 @@
             <div class="popup-content">
                 <p>${mensaje}</p>
                 <div style="margin-top:12px;">
-                    <button class="popup-btn btn-confirmar">Sí</button>
+                    <button class="popup-btn btn-confirmar" style="background: linear-gradient(90deg, #415c76, #3498db);">Sí</button>
                     <button class="popup-btn btn-cancelar">No</button>
                 </div>
             </div>
@@ -34,7 +34,7 @@
 
         // estilos adicionales a los botones
         const btnConfirmar = popup.querySelector(".btn-confirmar");
-        btnConfirmar.style.background = "#dc3545"; // rojo
+       
         btnConfirmar.style.marginRight = "8px";
 
         const btnCancelar = popup.querySelector(".btn-cancelar");
@@ -263,7 +263,13 @@ class RegistroUsuarios {
             this.guardarCita(cita);
             this.mostrarExito("Usuario registrado y cita agendada correctamente. ID de cita: " + cita.id);
         } else {
-            this.mostrarExito("Usuario registrado correctamente. Ahora puedes agendar citas en la sección correspondiente.");
+            mostrarConfirmacion(
+                "✅Usuario registrado correctamente. Ahora puedes agendar citas en la sección correspondiente. ¿Deseas ir a la página de citas?",
+                () => {
+                    // Si el usuario confirma
+                    window.location.href = "citas.html";
+                }
+            );
         }
 
         // Limpiar formulario
@@ -275,15 +281,7 @@ class RegistroUsuarios {
         });
 
         // Opcional: Redirigir a la página de citas después de un delay
-        setTimeout(() => {
-            mostrarConfirmacion(
-                "¿Deseas ir a la sección de citas para agendar una cita?",
-                () => {
-                    // Si el usuario confirma
-                    window.location.href = "citas.html";
-                }
-            );
-        }, 2000);
+        
     }
 }
 
