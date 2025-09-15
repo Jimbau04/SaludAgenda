@@ -601,6 +601,13 @@ footer ul li a:hover {
         padding: 0.5rem 1rem; /* reduce tamaño en móviles */
         font-size: 0.9rem;   
     }
+
+    .cita-card{
+      font-size: 11px;
+    }
+    .cita-card h5{
+      font-size: 13px;
+    }
 }
 
 @keyframes pulse {
