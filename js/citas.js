@@ -201,7 +201,7 @@ function aplicarFiltros() {
         const cumpleEspecialidad = !especialidad || cita.especialidad === especialidad;
         const cumpleEstatus = !estatus || cita.estatus === estatus;
         const cumpleFechaInicio = !fechaInicio || citaFecha >= new Date(fechaInicio).getTime();
-        const cumpleFechaFin = !fechaFin || citaFecha <= new Date(fechaFin).getTime();
+        const cumpleFechaFin = !fechaFin || citaFecha <= new Date(fechaFin  + 'T23:59:59').getTime();
 
         return cumpleCorreo && cumpleEspecialidad && cumpleEstatus && cumpleFechaInicio && cumpleFechaFin;
     });
@@ -335,18 +335,7 @@ function cambiarEstatus(id, nuevoEstatus) {
     mostrarPopup(`✅ Cita ${nuevoEstatus.toLowerCase()} exitosamente.`);
 }
 
-function normalizarFechaInicio(fecha) {
-    const d = new Date(fecha);
-    d.setHours(0, 0, 0, 0);
-    return d.getTime();
-}
 
-// Convierte string de fecha a final del día
-function normalizarFechaFin(fecha) {
-    const d = new Date(fecha);
-    d.setHours(23, 59, 59, 999);
-    return d.getTime();
-}
 
 function exportarCitas() {
     let citas = JSON.parse(localStorage.getItem("citas")) || [];
@@ -357,17 +346,20 @@ function exportarCitas() {
     const estatus = document.getElementById("filtroEstatus").value;
     const fechaInicio = document.getElementById("fechaInicio").value;
     const fechaFin = document.getElementById("fechaFin").value;
+    
 
     if (correo || especialidad || estatus || fechaInicio || fechaFin) {
         citas = citas.filter(cita => {
-            const citaFecha = new Date(cita.fecha).getTime();
-            const cumpleCorreo = !correo || cita.correo.toLowerCase().includes(correo);
-            const cumpleEspecialidad = !especialidad || cita.especialidad === especialidad;
-            const cumpleEstatus = !estatus || cita.estatus === estatus;
-            const cumpleFechaInicio = !fechaInicio || citaFecha >= normalizarFechaInicio(fechaInicio);
-            const cumpleFechaFin = !fechaFin || citaFecha <= normalizarFechaFin(fechaFin);
-            return cumpleCorreo && cumpleEspecialidad && cumpleEstatus && cumpleFechaInicio && cumpleFechaFin;
-        });
+        const citaFecha = new Date(cita.fecha).getTime();
+
+        const cumpleCorreo = !correo || cita.correo.toLowerCase().includes(correo);
+        const cumpleEspecialidad = !especialidad || cita.especialidad === especialidad;
+        const cumpleEstatus = !estatus || cita.estatus === estatus;
+        const cumpleFechaInicio = !fechaInicio || citaFecha >= new Date(fechaInicio).getTime();
+        const cumpleFechaFin = !fechaFin || citaFecha <= new Date(fechaFin  + 'T23:59:59').getTime();
+
+        return cumpleCorreo && cumpleEspecialidad && cumpleEstatus && cumpleFechaInicio && cumpleFechaFin;
+    });
     }
 
     if (citas.length === 0) {
