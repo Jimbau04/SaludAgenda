@@ -1,8 +1,8 @@
 
 /**
  * autocompletado-usuarios.js
- * Sistema de autocompletado para formularios de SaludAgenda
- * Archivo independiente que no interfiere con otros scripts
+ * Sistema de autocompletado para formulario
+ *
  */
 
 (function() {

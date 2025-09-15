@@ -335,6 +335,19 @@ function cambiarEstatus(id, nuevoEstatus) {
     mostrarPopup(`✅ Cita ${nuevoEstatus.toLowerCase()} exitosamente.`);
 }
 
+function normalizarFechaInicio(fecha) {
+    const d = new Date(fecha);
+    d.setHours(0, 0, 0, 0);
+    return d.getTime();
+}
+
+// Convierte string de fecha a final del día
+function normalizarFechaFin(fecha) {
+    const d = new Date(fecha);
+    d.setHours(23, 59, 59, 999);
+    return d.getTime();
+}
+
 function exportarCitas() {
     let citas = JSON.parse(localStorage.getItem("citas")) || [];
     
@@ -351,8 +364,8 @@ function exportarCitas() {
             const cumpleCorreo = !correo || cita.correo.toLowerCase().includes(correo);
             const cumpleEspecialidad = !especialidad || cita.especialidad === especialidad;
             const cumpleEstatus = !estatus || cita.estatus === estatus;
-            const cumpleFechaInicio = !fechaInicio || citaFecha >= new Date(fechaInicio).getTime();
-            const cumpleFechaFin = !fechaFin || citaFecha <= new Date(fechaFin).getTime();
+            const cumpleFechaInicio = !fechaInicio || citaFecha >= normalizarFechaInicio(fechaInicio);
+            const cumpleFechaFin = !fechaFin || citaFecha <= normalizarFechaFin(fechaFin);
             return cumpleCorreo && cumpleEspecialidad && cumpleEstatus && cumpleFechaInicio && cumpleFechaFin;
         });
     }
@@ -371,16 +384,16 @@ function exportarCitas() {
         });
 
         return `
-FOLIO: ${cita.id}
-Paciente: ${cita.nombre}
-Correo: ${cita.correo}
-Teléfono: ${cita.telefono}
-Especialidad: ${cita.especialidad}
-Fecha: ${fechaFormateada}
-Hora: ${cita.hora}
-Estado: ${cita.estatus}
-Motivo: ${cita.motivo}
-----------------------------------------
+            FOLIO: ${cita.id}
+            Paciente: ${cita.nombre}
+            Correo: ${cita.correo}
+            Teléfono: ${cita.telefono}
+            Especialidad: ${cita.especialidad}
+            Fecha: ${fechaFormateada}
+            Hora: ${cita.hora}
+            Estado: ${cita.estatus}
+            Motivo: ${cita.motivo}
+            ----------------------------------------
         `;
     }).join('\n');
 

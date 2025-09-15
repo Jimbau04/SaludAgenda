@@ -578,6 +578,31 @@ footer ul li a:hover {
     animation: pulse 1.5s infinite;
 }
 
+@media (max-width: 768px) {
+    .specialty-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .specialty-card {
+        padding: 1.5rem;
+    }
+    
+    .specialty-icon {
+        font-size: 2.5rem;
+    }
+    
+    .main-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+
+    #formConsultar .btn {
+        padding: 0.5rem 1rem; /* reduce tamaño en móviles */
+        font-size: 0.9rem;   
+    }
+}
+
 @keyframes pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.1); }
@@ -823,28 +848,5 @@ footer ul li a:hover {
   to { transform: scale(1); opacity: 1; }
 }
 
-@media (max-width: 768px) {
-    .specialty-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-    }
-    
-    .specialty-card {
-        padding: 1.5rem;
-    }
-    
-    .specialty-icon {
-        font-size: 2.5rem;
-    }
-    
-    .main-container {
-        margin: 1rem;
-        padding: 1.5rem;
-    }
 
-    #formConsultar .btn {
-        padding: 0.5rem 1rem; /* reduce tamaño en móviles */
-        font-size: 0.9rem;    /* opcional, hace el texto más pequeño */
-    }
-}
 
