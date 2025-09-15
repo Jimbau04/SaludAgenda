@@ -151,8 +151,8 @@ class RegistroUsuarios {
         }
 
         // Validación de teléfono
-        if (!/^[0-9]{8,10}$/.test(telefono)) {
-            this.mostrarError("El teléfono debe tener entre 8 y 10 dígitos");
+        if (!/^[0-9]{10}$/.test(telefono)) {
+            this.mostrarError("El teléfono debe tener entre 10 dígitos");
             return false;
         }
 
