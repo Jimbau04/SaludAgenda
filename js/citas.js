@@ -200,7 +200,7 @@ function aplicarFiltros() {
         const cumpleCorreo = !correo || cita.correo.toLowerCase().includes(correo);
         const cumpleEspecialidad = !especialidad || cita.especialidad === especialidad;
         const cumpleEstatus = !estatus || cita.estatus === estatus;
-        const cumpleFechaInicio = !fechaInicio || citaFecha >= new Date(fechaInicio).getTime();
+        const cumpleFechaInicio = !fechaInicio || citaFecha >= new Date(fechaInicio + 'T00:00:00').getTime();
         const cumpleFechaFin = !fechaFin || citaFecha <= new Date(fechaFin  + 'T23:59:59').getTime();
 
         return cumpleCorreo && cumpleEspecialidad && cumpleEstatus && cumpleFechaInicio && cumpleFechaFin;
