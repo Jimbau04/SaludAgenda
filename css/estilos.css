@@ -776,6 +776,21 @@ footer ul li a:hover {
     animation-delay: 4s;
 }
 
+@media (min-width:767px){
+    .text-decoration-none{
+      text-wrap: wrap;
+      overflow-wrap: break-word;
+      hyphens: auto;
+    } 
+
+    .social-media .btn{
+      
+      padding: 0.5rem;
+      font-size: 14px;
+      margin: 0;
+    }
+}
+
 @keyframes float {
     0%, 100% { transform: translateY(0px) rotate(0deg); }
     33% { transform: translateY(-20px) rotate(120deg); }
