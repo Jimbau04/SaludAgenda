@@ -35,6 +35,8 @@ function mostrarPopup(mensaje) {
     document.body.appendChild(popup);
 }
 
+
+
 // Verificar si el usuario está registrado
 function verificarUsuario() {
     const email = document.getElementById('correoVerificacion').value.trim();
@@ -253,7 +255,7 @@ function mostrarCitas(citas) {
             </div>
         ` : '<span class="text-muted">Sin acciones</span>';
 
-        // 🖥️ Vista tabla
+        // Vista tabla
         const row = document.createElement("tr");
         row.innerHTML = `
             <td><strong>${cita.id}</strong></td>
@@ -272,7 +274,7 @@ function mostrarCitas(citas) {
         `;
         tbody.appendChild(row);
 
-        // 📱 Vista card
+        // Vista card
         const card = document.createElement("div");
         card.className = "cita-card";
         card.innerHTML = `

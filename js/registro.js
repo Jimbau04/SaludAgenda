@@ -152,32 +152,11 @@ class RegistroUsuarios {
 
         // Validación de teléfono
         if (!/^[0-9]{10}$/.test(telefono)) {
-            this.mostrarError("El teléfono debe tener entre 10 dígitos");
+            this.mostrarError("El teléfono debe tener 10 dígitos");
             return false;
         }
 
-        // Si hay campos de cita (especialidad, fecha, hora, motivo), validarlos también
-        const especialidad = document.getElementById("especialidad");
-        const fecha = document.getElementById("fecha");
-        const hora = document.getElementById("hora");
-        const motivo = document.getElementById("motivo");
-
-        if (especialidad && fecha && hora && motivo) {
-            if (!especialidad.value || !fecha.value || !hora.value || !motivo.value.trim()) {
-                this.mostrarError("Todos los campos de la cita son obligatorios");
-                return false;
-            }
-
-            // Validación de fecha
-            const fechaSeleccionada = new Date(fecha.value);
-            const hoy = new Date();
-            hoy.setHours(0, 0, 0, 0);
-            
-            if (fechaSeleccionada < hoy) {
-                this.mostrarError("No se permiten fechas pasadas");
-                return false;
-            }
-        }
+        
 
         return true;
     }
@@ -241,39 +220,15 @@ class RegistroUsuarios {
         // Guardar usuario
         this.guardarUsuario(usuario);
 
-        // Si hay campos de cita, crear y guardar la cita también
-        const especialidad = document.getElementById("especialidad");
-        const fecha = document.getElementById("fecha");
-        const hora = document.getElementById("hora");
-        const motivo = document.getElementById("motivo");
-
-        if (especialidad && fecha && hora && motivo && 
-            especialidad.value && fecha.value && hora.value && motivo.value.trim()) {
-            
-            const cita = {
-                id: Date.now() + 1, // Asegurar ID único
-                nombre: usuario.nombre + (usuario.apellidoP ? " " + usuario.apellidoM : ""),
-
-                correo: usuario.correo,
-                telefono: usuario.telefono,
-                especialidad: especialidad.value,
-                fecha: fecha.value + "T" + hora.value, // Combinar fecha y hora
-                motivo: motivo.value.trim(),
-                estatus: "Activa",
-                fechaCreacion: new Date().toISOString()
-            };
-
-            this.guardarCita(cita);
-            this.mostrarExito("Usuario registrado y cita agendada correctamente. ID de cita: " + cita.id);
-        } else {
-            mostrarConfirmacion(
-                "✅Usuario registrado correctamente. Ahora puedes agendar citas en la sección correspondiente. ¿Deseas ir a la página de citas?",
-                () => {
-                    // Si el usuario confirma
-                    window.location.href = "citas.html";
-                }
-            );
-        }
+        
+        mostrarConfirmacion(
+            "✅Usuario registrado correctamente. Ahora puedes agendar citas en la sección correspondiente. ¿Deseas ir a la página de citas?",
+            () => {
+                // Si el usuario confirma
+                window.location.href = "citas.html";
+            }
+        );
+        
 
         // Limpiar formulario
         this.form.reset();
@@ -283,7 +238,7 @@ class RegistroUsuarios {
             el.classList.remove('is-valid', 'is-invalid');
         });
 
-        // Opcional: Redirigir a la página de citas después de un delay
+        
         
     }
 }
